@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icss.mvc.dao.StuScoreDao">
+	<resultMap type="com.icss.mvc.entity.Score" id="scoreStuMap">
+		<id column="scoreId" property="scoreId"/>
+		<result column="stuid" property="stuid"/>
+		<result column="courseid" property="courseid"/>
+		<result column="val" property="val"/>
+		<association property="stu" javaType="com.icss.mvc.entity.Student" column="stuid">
+			<id column="stuId" property="stuId"/>
+			<result column="stuName" property="stuName"/>
+			<result column="birthday" property="birthday"/>
+		</association>
+	</resultMap>
+
+	<select id="findScoreWithStu" resultMap="scoreStuMap">
+	select * from stuscore sc LEFT JOIN student st  on st.stuId=sc.stuid;
+	</select>
+	
+	<select id="findScore" resultType="com.icss.mvc.entity.StuScore">
+	select * from stuscore;
+	</select>
+	<select id="findScoreWithName" resultType="com.icss.mvc.entity.StuScore">
+	select sc.*,st.stuName from stuscore sc,student st WHERE sc.stuid=st.stuId;
+	</select>
+	
+	<insert id="insertStuScore" >
+	insert into stuscore values(DEFAULT,#{stuid},#{courseid},NULL);
+	</insert>
+	<insert id="insertStuScoreGetId" keyProperty="scoreId" useGeneratedKeys="true">
+	insert into stuscore values(DEFAULT,#{stuid},#{courseid},NULL);
+	</insert>
+	
+</mapper>

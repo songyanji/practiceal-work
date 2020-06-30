@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icss.mvc.dao.StudentDao">
+<!-- 	<select id="findStuWithScore1" resultType="com.icss.mvc.entity.Stu">
+	select * from student st LEFT JOIN stuscore sc on st.stuId=sc.stuid;
+	</select>
+ -->	
+ 	<resultMap type="com.icss.mvc.entity.Stu" id="stuScoreMap">
+ 		<id column="stuId" property="stuId"/>
+ 		<result column="stuName" property="stuName"/>
+ 		<result column="birthday" property="birthday"/>
+ 		<collection property="scoreList" ofType="com.icss.mvc.entity.StuScore" column="stuid">
+ 			<id column="scoreId" property="scoreId"/>
+ 			<result column="courseid" property="courseid"/>
+ 			<result column="val" property="val"/>
+ 		</collection>
+ 	</resultMap> 	
+ 	<select id="findStuWithScore1" resultMap="stuScoreMap">
+	select * from student st LEFT JOIN stuscore sc on st.stuId=sc.stuid;
+	</select>
+
+	<select id="findStuAll" resultType="stu">
+	select * from student;
+	</select>
+	<select id="findStuByDept" resultType="stu" parameterType="string">
+	select * from student where dept=#{dept};
+	</select>
+	<select id="findStuById" resultType="stu" parameterType="string">
+	select * from student where stuId=#{stuId}
+	</select>
+	<insert id="addStu" >
+	insert into student VALUES(#{0},#{1},#{2},#{3},null,null,null,null);
+	</insert>
+	<insert id="insertStu" >
+	insert into student VALUES(#{stuId},#{stuName},#{sex},#{birthday},null,null,null,null);
+	</insert>
+	
+</mapper>
